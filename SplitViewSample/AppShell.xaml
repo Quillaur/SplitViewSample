@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="SplitViewSample.AppShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <!--Ресурсы страницы-->
+    <Page.Resources>
+        <CollectionViewSource x:Key="Items"/>
+        <!--Шаблон элемента бокового меню-->
+        <DataTemplate x:Key="SplitViewItem">
+            <StackPanel Orientation="Horizontal" Height="48">
+                <FontIcon FontSize="15" Glyph="{Binding Icon}" Margin="-12,0,0,0" VerticalAlignment="Center" Width="48"/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding Label}" VerticalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--Разбивает сетку по горизонтали на две части-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--Корень навигации-->
+        <SplitView x:Name="splitView"
+                   DisplayMode="Overlay"
+                   Grid.Row="1" 
+                   Margin="0,-48,0,0"
+                   OpenPaneLength="256">
+            <!--Боковое меню-->
+            <SplitView.Pane>
+                <Grid Background="{ThemeResource SplitViewBackgroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="48"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Заголовок бокового меню-->
+                    <Grid Margin="58,0,0,0">
+                        <TextBlock FontSize="15" FontWeight="Bold" HorizontalAlignment="Left"
+                                   Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Text="{StaticResource AppName}"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!--Список элементов бокового меню (страниц)-->
+                    <ListView x:Name="listView" Grid.Row="1" SelectionChanged="listView_SelectionChanged"
+                              IsItemClickEnabled="True" ItemClick="listView_ItemClick"
+                              ItemsSource="{Binding Source={StaticResource Items}}"
+                              ItemTemplate="{StaticResource SplitViewItem}"/>
+
+                    <!--Разделитель нижней части бокового меню-->
+                    <Border BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0.5"
+                            Grid.Row="2" Margin="12,0" Opacity="0.5"/>
+                    
+                    <!--Кнопка доступа к настройкам-->
+                    <Button Grid.Row="3" Click="settings_Click" Style="{ThemeResource CustomButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Height="48" VerticalAlignment="Center">
+                            <FontIcon FontSize="15" Glyph="&#xE713;" Margin="-12,0,0,0" VerticalAlignment="Center" Width="48"/>
+                            <TextBlock Margin="10,0,0,0" Text="Settings" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </SplitView.Pane>
+            
+            <!--Текущее содержимое-->
+            <Frame x:Name="frame" Margin="0,48,0,0"/>
+        </SplitView>
+
+        <!--Кнопка доступа к боковому меню-->
+        <AppBarButton x:Name="hamburgerButton" Height="48" Width="48" Click="hamburgerButton_Click">
+            <AppBarButton.Icon>
+                <!--Иконка гамбургера-->
+                <FontIcon Glyph="&#xE700;"/>
+            </AppBarButton.Icon>
+        </AppBarButton>
+    </Grid>
+</Page>
