@@ -1,9 +1,10 @@
 ﻿using SplitViewSample.Model;
 using SplitViewSample.Pages;
 using System.Collections.Generic;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Navigation;
 
 namespace SplitViewSample
 {
@@ -47,7 +48,36 @@ namespace SplitViewSample
         {
             InitializeComponent();
             // Заполняет боковое меню содержимым.
-            ((CollectionViewSource)Resources["Items"]).Source = SplitViewItems;
+            listView.ItemsSource = SplitViewItems;
+            // Задаёт навигацию к домашней странице.
+            listView.SelectedIndex = 0;
+            // Устанавливает навигацию назад.
+            SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
+        }
+
+        /// <summary>
+        /// Переход на предыдущую страницу в AppFrame.
+        /// </summary>
+        private void AppShell_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            bool handled = e.Handled;
+            BackRequested(ref handled);
+            e.Handled = handled;
+        }
+
+        /// <summary>
+        /// Обработка навигации назад.
+        /// </summary>
+        /// <param name="handled">Используется для перехвата.</param>
+        private void BackRequested(ref bool handled)
+        {
+            if (AppFrame == null)
+                return;
+            if (AppFrame.CanGoBack && !handled)
+            {
+                handled = true;
+                AppFrame.GoBack();
+            }
         }
 
         /// <summary>
@@ -92,9 +122,30 @@ namespace SplitViewSample
         private void settings_Click(object sender, RoutedEventArgs e)
         {
             listView.SelectedIndex = -1;
-            AppFrame.BackStack.Clear();
             AppFrame.Navigate(typeof(SettingsPage));
             hamburgerButton_Click(null, null);
+        }
+
+        /// <summary>
+        /// Событие навигации AppFrame.
+        /// </summary>
+        private void frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            // Показывает или скрывает кнопку Back.
+            if (AppFrame.BackStack.Count > 0)
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            else
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            // Выделяет предыдущий элемент в боковом меню.
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                if (e.SourcePageType == typeof(HomePage))
+                    listView.SelectedIndex = 0;
+                else if (e.SourcePageType == typeof(AboutMePage))
+                    listView.SelectedIndex = 1;
+                else if (e.SourcePageType == typeof(SettingsPage))
+                    listView.SelectedIndex = -1;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
@@ -67,6 +68,9 @@ namespace SplitViewSample
             }
             // Выполняет навигацию к домашней странице.
             shell.AppFrame.Navigate(typeof(HomePage));
+            // Очищает журнал переходов.
+            shell.AppFrame.BackStack.Clear();
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             // Активация Window.
             Window.Current.Activate();
         }
