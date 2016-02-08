@@ -13,5 +13,9 @@
         /// Надпись.
         /// </summary>
         public string Label { get; set; }
+        /// <summary>
+        /// Ключ представления.
+        /// </summary>
+        public string Key { get; set; }
     }
 }

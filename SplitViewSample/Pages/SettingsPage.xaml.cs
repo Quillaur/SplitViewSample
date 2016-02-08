@@ -5,7 +5,7 @@ namespace SplitViewSample.Pages
     /// <summary>
     /// Страница настроек.
     /// </summary>
-    public sealed partial class SettingsPage : Page
+    public sealed partial class SettingsPage : View
     {
         /// <summary>
         /// Конструктор по умолчанию.

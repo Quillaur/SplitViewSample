@@ -105,9 +105,11 @@
     <Compile Include="Pages\AboutMePage.xaml.cs">
       <DependentUpon>AboutMePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\IView.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\View.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

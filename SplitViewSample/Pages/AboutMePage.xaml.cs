@@ -8,7 +8,7 @@ namespace SplitViewSample.Pages
     /// <summary>
     /// Второстепенная страница.
     /// </summary>
-    public sealed partial class AboutMePage : Page
+    public sealed partial class AboutMePage : View
     {
         /// <summary>
         /// Конструктор по умолчанию.

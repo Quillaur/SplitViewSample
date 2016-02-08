@@ -1,6 +1,8 @@
 ﻿using SplitViewSample.Model;
 using SplitViewSample.Pages;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,23 +15,26 @@ namespace SplitViewSample
     /// </summary>
     public sealed partial class AppShell : Page
     {
+        private const string PAGE_TYPE_MASK = "SplitViewSample.Pages.{0},SplitViewSample";
+
         /// <summary>
         /// Список элементов бокового меню.
         /// </summary>
-        private List<SplitViewItem> SplitViewItems = new List<SplitViewItem>(
-            new[]
+        private List<SplitViewItem> SplitViewItems = new List<SplitViewItem>
             {
                 new SplitViewItem()
                 {
                     Icon = "\uE80F",
-                    Label = "Home"
+                    Label = "Home",
+                    Key = "HomePage"
                 },
                 new SplitViewItem()
                 {
                     Icon = "\uE77B",
-                    Label = "About me"
+                    Label = "About me",
+                    Key = "AboutMePage"
                 }
-            });
+            };
 
         /// <summary>
         /// Корневой Frame.
@@ -105,15 +110,12 @@ namespace SplitViewSample
         /// </summary>
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
-                switch (listView.SelectedIndex)
-                {
-                    case 0: AppFrame.Navigate(typeof(HomePage)); break;
-                    case 1: AppFrame.Navigate(typeof(AboutMePage)); break;
-                }
-            }
-            catch { }
+            if (listView.SelectedItem == null) return;
+
+            string pageKey = ((SplitViewItem)listView.SelectedItem).Key;
+            var pageType = Type.GetType(String.Format(PAGE_TYPE_MASK, pageKey));
+
+            AppFrame.Navigate(pageType);
         }
 
         /// <summary>
@@ -121,7 +123,6 @@ namespace SplitViewSample
         /// </summary>
         private void settings_Click(object sender, RoutedEventArgs e)
         {
-            listView.SelectedIndex = -1;
             AppFrame.Navigate(typeof(SettingsPage));
             hamburgerButton_Click(null, null);
         }
@@ -136,16 +137,10 @@ namespace SplitViewSample
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             else
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            // Выделяет предыдущий элемент в боковом меню.
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-                if (e.SourcePageType == typeof(HomePage))
-                    listView.SelectedIndex = 0;
-                else if (e.SourcePageType == typeof(AboutMePage))
-                    listView.SelectedIndex = 1;
-                else if (e.SourcePageType == typeof(SettingsPage))
-                    listView.SelectedIndex = -1;
-            }
+
+            string pageKey = e.SourcePageType.Name;
+            SplitViewItem item = SplitViewItems.FirstOrDefault(x => x.Key == pageKey);
+            listView.SelectedIndex = SplitViewItems.IndexOf(item);
         }
     }
 }
