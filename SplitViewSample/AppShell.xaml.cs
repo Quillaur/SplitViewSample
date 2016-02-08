@@ -15,7 +15,20 @@ namespace SplitViewSample
         /// <summary>
         /// Список элементов бокового меню.
         /// </summary>
-        private List<SplitViewItem> SplitViewItems = new List<SplitViewItem>();
+        private List<SplitViewItem> SplitViewItems = new List<SplitViewItem>(
+            new[]
+            {
+                new SplitViewItem()
+                {
+                    Icon = "\uE80F",
+                    Label = "Home"
+                },
+                new SplitViewItem()
+                {
+                    Icon = "\uE77B",
+                    Label = "About me"
+                }
+            });
 
         /// <summary>
         /// Корневой Frame.
@@ -33,7 +46,8 @@ namespace SplitViewSample
         public AppShell()
         {
             InitializeComponent();
-            FillSplitView();
+            // Заполняет боковое меню содержимым.
+            ((CollectionViewSource)Resources["Items"]).Source = SplitViewItems;
         }
 
         /// <summary>
@@ -81,16 +95,6 @@ namespace SplitViewSample
             AppFrame.BackStack.Clear();
             AppFrame.Navigate(typeof(SettingsPage));
             hamburgerButton_Click(null, null);
-        }
-
-        /// <summary>
-        /// Заполняет боковое меню содержимым.
-        /// </summary>
-        private void FillSplitView()
-        {
-            SplitViewItems.Add(new SplitViewItem() { Icon = "\uE80F", Label = "Home" } );
-            SplitViewItems.Add(new SplitViewItem() { Icon = "\uE77B", Label = "About me" });
-            ((CollectionViewSource)Resources["Items"]).Source = SplitViewItems;
         }
     }
 }
