@@ -1,6 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
-
-namespace SplitViewSample.Pages
+﻿namespace SplitViewSample.Pages
 {
     /// <summary>
     /// Страница настроек.
@@ -8,7 +6,7 @@ namespace SplitViewSample.Pages
     public sealed partial class SettingsPage : View
     {
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Конструктор.
         /// </summary>
         public SettingsPage()
         {

@@ -58,6 +58,8 @@ namespace SplitViewSample
             listView.SelectedIndex = 0;
             // Устанавливает навигацию назад.
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
+            // Устанавливает подсказку на кнопку-гамбургер.
+            ToolTipService.SetToolTip(hamburgerButton, "Maximize navigation pane");
         }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace SplitViewSample
             if (listView.SelectedItem == null) return;
 
             string pageKey = ((SplitViewItem)listView.SelectedItem).Key;
-            var pageType = Type.GetType(String.Format(PAGE_TYPE_MASK, pageKey));
+            var pageType = Type.GetType(string.Format(PAGE_TYPE_MASK, pageKey));
 
             AppFrame.Navigate(pageType);
         }

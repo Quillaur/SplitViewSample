@@ -14,7 +14,7 @@ namespace SplitViewSample.Pages
         {
             get
             {
-                return this.GetType().Name;
+                return GetType().Name;
             }
         }
     }

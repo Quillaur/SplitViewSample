@@ -33,8 +33,8 @@
                 </StackPanel.Transitions>
 
                 <TextBlock Text="SplitViewSample" Style="{ThemeResource SubheaderTextBlockStyle}"/>
-                <TextBlock Text="Version 1.1.0"/>
-                <TextBlock Text="2/8/2016" Margin="0,0,0,20"/>
+                <TextBlock Text="Version 1.2.0"/>
+                <TextBlock Text="2/12/2016" Margin="0,0,0,20"/>
                 <TextBlock Text="Author" Style="{ThemeResource TitleTextBlockStyle}"/>
                 <TextBlock Text="Oleg Samoylov" Margin="0,0,0,12"/>
                 <HyperlinkButton Content="My apps in Windows Store" Style="{ThemeResource TextBlockButtonStyle}" Click="HyperlinkButton_Click"/>
