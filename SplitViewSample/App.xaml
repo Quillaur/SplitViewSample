@@ -9,7 +9,7 @@
                 <ResourceDictionary Source="Resources/Colors.xaml"/>
                 <ResourceDictionary Source="Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!--Введите здесь название своего приложения-->
+            <!--TODO: Введите здесь название своего приложения-->
             <x:String x:Key="AppName">SAMPLE</x:String>
         </ResourceDictionary>
     </Application.Resources>
